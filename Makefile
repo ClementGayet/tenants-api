@@ -1,4 +1,4 @@
-DOCKER_REPOSITORY ?=
+DOCKER_REPOSITORY ?= cgayet
 
 # get the branch name from git slugify it and use it as the image tag
 # Image tag should be the version in the package.json if the branch is dev or main, otherwise it should be the branch name
@@ -9,7 +9,7 @@ else
  IMAGE_TAG ?= $(GIT_BRANCH)
 endif
 
-IMAGE_NAME ?= backend/$(GIT_BRANCH)
+IMAGE_NAME ?= tenants-api
 
 default: help
 
