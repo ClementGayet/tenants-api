@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: tenants-api
-          image: docker.io/cgayet/tenants-api:v1
+          image: docker.io/cgayet/tenants-api:0.0.1
           ports:
             - containerPort: 3000
           env:

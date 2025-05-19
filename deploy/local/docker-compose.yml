@@ -24,7 +24,7 @@ services:
 
   tenants-api:
     restart: "no"
-    image: tenants-api:v1
+    image: docker.io/cgayet/tenants-api:0.0.1
     environment:
       - NODE_ENV=development
       - DATABASE_HOST=database
