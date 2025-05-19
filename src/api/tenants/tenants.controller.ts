@@ -8,6 +8,7 @@ import {
   Delete,
   Res,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { TenantsService } from './tenants.service';
@@ -15,11 +16,12 @@ import { CreateTenantDto } from './dto/create-tenant.dto';
 import { UpdateTenantDto } from './dto/update-tenant.dto';
 import { ReadTenantDto } from './dto/read-tenant.dto';
 import { Response } from 'express';
-import { Roles } from '../../security/roles/roles.decorator';
 
 @ApiTags('Tenants')
 @Controller('tenants')
 export class TenantsController {
+  private readonly logger = new Logger(TenantsController.name);
+
   constructor(private readonly tenantsService: TenantsService) {}
 
   @Post()
@@ -38,7 +40,7 @@ export class TenantsController {
   }
 
   @Get()
-  @Roles(['admin'])
+  //@Roles(['admin'])
   @ApiOperation({ summary: 'Get all tenants' })
   @ApiResponse({
     status: 200,
@@ -46,6 +48,8 @@ export class TenantsController {
     type: [ReadTenantDto],
   })
   findAll(): Promise<ReadTenantDto[]> {
+    this.logger.log('Fetching all tenants');
+
     return this.tenantsService.findAll();
   }
 

@@ -1,6 +1,5 @@
-import { NestFactory, Reflector } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { RolesGuard } from './security/roles/roles.guard';
 import { ConsoleLogger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
@@ -12,7 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger,
   });
-  app.useGlobalGuards(new RolesGuard(app.get(Reflector)));
+  // app.useGlobalGuards(new RolesGuard(app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('Tenants API')
@@ -25,7 +24,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api-docs', app, document);
 
-  app.listen(process.env.PORT ?? 3000).then(() => {
+  await app.listen(process.env.APP_PORT ?? 5000).then(() => {
     logger.log(`Listening on port ${process.env.APP_PORT || 5000}`);
     logger.log('Swagger UI available at /api-docs');
   });

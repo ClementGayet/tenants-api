@@ -1,16 +1,22 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: tenants-api-route
+  name: tenants-api
   namespace: local
+  labels:
+    app: tenants-api
+    env: local
 spec:
   parentRefs:
     - name: gateway
+      namespace: default
+  hostnames:
+    - api.fbi.com
   rules:
     - matches:
         - path:
             type: PathPrefix
-            value: /
+            value: /tenants
       backendRefs:
         - name: tenants-api
           port: 80

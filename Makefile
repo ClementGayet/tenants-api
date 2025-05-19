@@ -1,10 +1,10 @@
-DOCKER_REPOSITORY ?= cgayet
+DOCKER_REPOSITORY ?= docker.io/cgayet
 
 # get the branch name from git slugify it and use it as the image tag
 # Image tag should be the version in the package.json if the branch is dev or main, otherwise it should be the branch name
 GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD | sed 's/[^a-zA-Z0-9]/-/g')
 ifeq ($(GIT_BRANCH),$(filter $(GIT_BRANCH),dev main))
- IMAGE_TAG ?= $(shell npm pkg get version --raw)
+ IMAGE_TAG ?= $(shell npm pkg get version)
 else
  IMAGE_TAG ?= $(GIT_BRANCH)
 endif
@@ -45,3 +45,6 @@ build/docker: ## Build the docker image
 
 push/docker:  ## Push the docker image
 	@docker push ${DOCKER_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}
+
+apply/kube:  ## Apply the configuration to the target environment
+	@kubectl apply -f ./deploy/${ENV}

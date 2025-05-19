@@ -1,5 +1,3 @@
-import * as path from 'node:path';
-
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
@@ -13,7 +11,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     try {
-      const { host, port, database, username, password, sync, ssl } =
+      const { host, port, database, username, password, ssl } =
         this.config.getOrThrow<DatabaseConfig>('database');
 
       return {
@@ -29,14 +27,11 @@ export class DatabaseService implements TypeOrmOptionsFactory {
         ssl: ssl ? { rejectUnauthorized: false } : false,
 
         // migrations options
-        migrationsRun: !sync,
-        migrations: [
-          path.join(__dirname, '/migrations/*.{ts,js}'),
-          path.join(__dirname, '/seeds/*.{ts,js}'),
-        ],
+        migrationsRun: true,
+        synchronize: false,
+        entities: [__dirname + '/../../**/*.entity.{ts,js}'],
+        migrations: [__dirname + '/migrations/*.{ts,js}'],
 
-        // entity related options
-        synchronize: sync,
         autoLoadEntities: true,
 
         namingStrategy: new SnakeNamingStrategy(),

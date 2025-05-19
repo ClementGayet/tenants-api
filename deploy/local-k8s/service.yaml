@@ -3,9 +3,13 @@ kind: Service
 metadata:
   name: tenants-api
   namespace: local
+  labels:
+    app: tenants-api
+    env: local
 spec:
   selector:
     app: tenants-api
   ports:
     - port: 80
-      targetPort: 3000
+      protocol: TCP
+      targetPort: http
