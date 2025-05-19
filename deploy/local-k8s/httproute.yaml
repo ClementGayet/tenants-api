@@ -9,7 +9,7 @@ metadata:
 spec:
   parentRefs:
     - name: gateway
-      namespace: default
+      namespace: local
   hostnames:
     - api.fbi.com
   rules:
