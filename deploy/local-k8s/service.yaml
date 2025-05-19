@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tenants-api
+  namespace: local
+spec:
+  selector:
+    app: tenants-api
+  ports:
+    - port: 80
+      targetPort: 3000

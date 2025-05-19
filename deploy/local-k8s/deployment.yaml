@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tenants-api
+  namespace: local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tenants-api
+  template:
+    metadata:
+      labels:
+        app: tenants-api
+    spec:
+      containers:
+        - name: tenants-api
+          image: docker.io/cgayet/tenants-api:v1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: development
+

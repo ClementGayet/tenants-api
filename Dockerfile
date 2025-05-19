@@ -22,9 +22,6 @@ EXPOSE $PORT
 
 USER root
 
-# Install required dependencies on the machine using alpine package manager
-RUN apk add libmagic file
-
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 

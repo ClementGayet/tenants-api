@@ -1,13 +1,8 @@
 networks:
   net:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
-          gateway: 172.20.0.1
 
 services:
-
   # Postgres database
   database:
     restart: "no"
@@ -27,22 +22,16 @@ services:
     networks:
       - net
 
-  backend:
+  tenants-api:
     restart: "no"
-    user: root
-    build:
-      context: ../..
-      args:
-        - NODE_ENV=development
-    command: npm run start:dev
+    image: tenants-api:v1
     environment:
       - NODE_ENV=development
-    env_file:
-      - .env
-    volumes:
-      - ../../node_modules:/app/node_modules:ro
-      - ../../package.json:/app/package.json:ro
-      - ../../src:/app/src:ro
+      - DATABASE_HOST=database
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=tenants
+      - DATABASE_SSL=false
     ports:
       - "3000:3000"
     networks:
